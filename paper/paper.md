@@ -1,56 +1,91 @@
 ---
-title: 'The Experiment Factory: Reproducible Experiment Containers'
+title: 'Haarpy: a Python library for Weingarten calculus and integration of classical compact groups and ensembles'
 tags:
-  - containers
-  - docker
-  - psychology
-  - reproducibility
-  - Docker
+  - random matrices
+  - Haar measure
+  - classical compact groups
 authors:
- - name: Vanessa Sochat
-   orcid: 0000-0002-4387-3819
+ - name: Yanic Cardin
+   orcid: 0009-0005-6858-705X
+   affiliation: 1
+ - name: Hubert de Guise
+   orcid: 0000-0002-1904-4287
+   affiliation: 2
+ - name: Nicolás Quesada
+   orcid: 0000-0002-0175-1688
    affiliation: 1
 affiliations:
- - name: Stanford University Research Computing
+ - name: Département de génie physique, École polytechnique de Montréal, Montréal, QC H3T 1J4, Canada
    index: 1
-date: 28 November 2017
+ - name: Department of Physics, Lakehead University, Thunder Bay, ON P7B 5E1, Canada
+   index: 2
+date: 15 June 2026
 bibliography: paper.bib
 ---
 
 # Summary
 
-The Experiment Factory [@vanessa_sochat_2017_1059119] is Open Source software that makes it easy to generate reproducible behavioral experiments. It offers a browsable, and tested [library](https://expfactory.github.io/experiments/) of experiments, games, and surveys, support for multiple kinds of databases, and [robust documentation](https://expfactory.github.io/expfactory/) for the provided tools. A user interested in deploying a behavioral assessment can simply select a grouping of paradigms from the web interface, and build a container to serve them.
+[*Haarpy*](https://github.com/polyquantique/haarpy) is a Python library for the symbolic calculation of Weingarten functions and related integals (also called moments or averages) of matrix ensembles under their Haar measure.
+There is a multiplicity of applications, both in physics and in mathematics, requiring the computation of averages of various polynomial functions over the classical compact groups (unitary, orthogonal and symplectic), their associated circular ensembles, the group of permutation and centered permutation matrices, and the quantum groups (free symmetric and free orthogonal). [@potters2020first]
+Rather than relying on Monte Carlo simulation, which provides approximate results [@mezzadri2006generate], *Haarpy* enables exact analytical computation of such moments.
 
-![img/portal.png](img/portal.png)
+Under the hood, *Haarpy* reduces the computation of integrals over the relevant ensembles to Weingarten calculus.
+This field has grown rapidly over the past few decades, following the foundational work of Collins, who introduced the terminology. [@collins2003moments] [@collins2006integration]
+This machinery is exposed through functions such as `weingarten_unitary`, `weingarten_orthogonal` and `weingarten_symplectic` while the associated integrals are accessed through functions such as `haar_integral_unitary`, `haar_integral_orthogonal` and `haar_integral_symplectic`.
+A full description of *Haarpy*'s functionalities can be found in the libraries [documentation](https://haarpy.readthedocs.io/en/latest).
 
+Built on top of the *SymPy* symbolic engine, *Haarpy* allows users to retain symbolic parameters and derive general formulas applicable across entire classes of problems. [@10.7717/peerj-cs.103]
 
-# Challenges with Behavioral Research
+# Statement of need
 
-The reproducibility crisis [@Ram2013-km, @Stodden2010-cu, @noauthor_2015-ig, @noauthor_undated-sn, @Baker_undated-bx, @Open_Science_Collaboration2015-hb] has been well met by many efforts [@Belmann2015-eb, @Moreews2015-dy, @Boettiger2014-cz, @Santana-Perez2015-wo, @Wandell2015-yt] across scientific disciplines to capture dependencies required for a scientific analysis. Behavioral research is especially challenging, historically due to the need to bring a study participant into the lab, and currently due to needing to develop and validate a well-tested set of paradigms. A common format for these paradigms is a web-based format that can be done on a computer with an internet connection, without one if all resources are provided locally. However, while many great tools exist for creating the web-based paradigms [@De_Leeuw2015-zw, @McDonnell2012-ns], still lacking is assurance that the generated paradigms will be reproducible. Specifically, the following challenges remain:
+The computation of averages over Haar-distributed random matrices is of growing importance in quantum information theory, random matrix theory, and statistical physics. [@potters2020first]
+These averages describe the typical behavior of complex systems, including entanglement properties, randomness, and statistical correlations.
 
- - **Dependencies** such as software, experiment static files, and runtime variables must be captured for reproduciblity.
- - Individual experiments and the library must be **version controlled.**
- - Each experiment could benefit from being maintianed and tested in an **Open Source** fashion. This means that those knowledgable about the paradigm can easily collaborate on code, and others can file issues and ask questions.
- - Tools must allow for **flexibility** to allow different libraries (e.g., JavaScript).
- - The final product should be **easy to deploy** exactly as the creator intended.
+Standard approaches typically rely either on Monte Carlo simulation, which approximates integrals through sampling, or on manual analytical derivations, which often involves intricate combinatorics.
 
-The early version of the Experiment Factory [@Sochat2016-pu] did a good job to develop somewhat modular paradigms, and offered a small set of Python tools to generate local, static batteries from a single repository. Unfortunately, it was severely limited in its ability to scale, and provide reproducible deployments via linux containers [@Merkel2014-da]. The experiments were required to conform to specific set of software, the lack of containerization meant that installation was challenging and error prone, and importantly, it did not meet the complete set of goals outlined above. While the `expfactory-docker` [@noauthor_undated-pi, @Sochat2016-pu] image offered a means to deploy experiments to Amazon Mechanical Turk, it required substantial setup and was primarily developed to meet the specific needs of one lab.
+*Haarpy* is intended for researchers throughout physics, mathematicians working in representation theory, and researchers studying random matrix models.
+By making Weingarten calculus readily accessible in software, *Haarpy* enhances reproducibility, reduces computational overhead, and lowers the barrier to performing rigorous analytical calculations.
 
-![img/expfactory.png](img/expfactory.png)
+# State of the field
+Several software packages support symbolic Haar integration and related calculations.
+Early implementations were developed in Mathematica, while more recent projects such as *RTNI2* and *IntegrateUnitary.jl* provide advanced functionality for tensor-network-based computations and symbolic integration within their respective ecosystems.
+In particular, *RTNI2* offers a powerful framework for diagrammatic calculations based on tensor network methods, while IntegrateUnitary.jl provides symbolic tools for Haar integration in Julia. [@fukuda2023symbolically] [@pawela2026integrateunitary]
 
-# Experiment Container Generation
-The software outlined here, "expfactory," shares little with the original implementation beyond the name. Specifically, it allows for encapsulation of all dependencies and static files required for behavioral experimentation, and flexibility to the user for configuration of the deployment. For usage of a pre-existing experiment container, the user simply needs to run the Docker image. For generation of a new, custom container the generation workflow is typically the following:
- 
- - **Selection** The user browses a [library](https://expfactory.github.io/experiments/) of available experiments, surveys, and games. A preview is available directly in the browser, and data saved to the local machine for inspection. The preview reflects exactly what will be installed into the container.
- - **Generation** The user selects one or more paradigms to add to the container, and clicks "Generate." The user runs the command shown in the browser on his or her local machine to produce the custom recipe for the container, called a Dockerfile.
- - **Building** The user builds the container (and optionally adds the Dockerfile to version control or automated building on Docker Hub) and uses it in production. The same container is then available for others that want to reproduce the experiment.
+*Haarpy* complements these efforts by providing an open-source, Python-native implementation tightly integrated with the scientific Python ecosystem and with *SymPy*.
+In addition to supporting integrations over the unitary and orthogonal groups, the package implements moment calculations for symplectic groups, circular ensembles, permutation and centered permutation matrices, and the free symmetric and free orthogonal groups within a unified interface.
+To the best of our knowledge, *Haarpy* is the first Python package to provide direct computation of Haar integrals within a unified symbolic framework, rather than requiring users to reconstruct integrals from intermediate outputs.
 
-At runtime, the user is then able to select deployment customization such as database (MySQL, PostgreSQL, sqlite3, or default of filesystem), and a study identifier.
+The package places a strong emphasis on verification, with an extensive test suite covering both symbolic and numerical computations.
+Rather than extending an existing codebase, the underlying Weingarten calculus machinery has been re-implemented in Python to provide a tool that integrates naturally with widely used Python scientific workflows.
+For classical compact groups, *Haarpy* additionally provides an alternative moment computation method based on the recursive algorithm of Gorin, which does not rely on Weingarten calculus.
+In many settings, this approach can offer improved performance compared to Weingarten-based computations. [@gorin2008monomial]
 
+# Software design
+*Haarpy* is designed with a focus on mathematical fidelity, symbolic flexibility, and usability.
+A key consideration is the trade-off between symbolic and numerical computation: while purely numerical methods can offer speed, they often obscure structure and reduce reproducibility, whereas symbolic computation preserves the algebraic form needed for derivations and verification.
+For this reason, the implementation is deliberately built around a lightweight symbolic stack centered on *SymPy*, avoiding heavier external dependencies in order to keep the system transparent, portable, and easier to validate.
+At the same time, efficiency is addressed through selective caching of intermediate combinatorial quantities, which reduces redundant work without relying on a precomputed database of results.
+In particular, moments are computed on demand rather than retrieved from tabulated Weingarten values.
 
-# Experiment Container Usage
-Once a container is generated and it's unique identifier and image layers served in a registry like Docker Hub, it can be cited in a paper with confidence that others can run and reproduce the work simply by using it.
+Core Weingarten functionality is complemented by auxiliary tools, including:
+- Implementation of the Murnaghan–Nakayama rule for characters of irreducible representations of the symmetric group, [@james2006representation]
+- Functions for computing dimensions of irreducible representations of the symmetric and unitary groups,
+- Generators yielding the permutations of the hyperoctahedral group and Young group, [@macdonald1998symmetric]
+- Generators yielding the sets of non-crossing partitions and non-crossing pairings. [@nica2006lectures]
 
-More information on experiment development and contribution to the expfactory tools, containers, or library is provided at the Experiment Factory  <a href="https://expfactory.github.io/expfactory/" target="_blank">official documentation</a>. This is an Open Source project, and so <a href="https://www.github.com/expfactory/expfactory/issues" target="_blank">feedback and contributions</a> are encouraged and welcome.
+This modular design enables reuse in broader algebraic and combinatorial computations.
+Exposing group-theoretic primitives increases usability for diverse research applications.
+
+# Research impact statement
+
+*Haarpy* has been cited in an arXiv preprint, indicating external use beyond the original development context. [@duschenes2025moments]
+The library is also used in ongoing collaborative research on Weingarten calculus and related random matrix theory problems.
+The project is publicly available on [GitHub](https://github.com/polyquantique) and is accompanied by comprehensive documentation hosted on [Read the Docs](https://haarpy.readthedocs.io/en/latest).
+The repository includes continuous integration with automated testing, with all tests passing and full test coverage reported via standard coverage tooling.
+These components provide a reproducible and verifiable implementation of algorithms for integration over a wide range of ensembles equipped with the Haar measure.
+
+# AI usage disclosure
+
+No AI tools were used in the development of *Haarpy*.
 
 # References
