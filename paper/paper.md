@@ -84,7 +84,7 @@ Exposing group-theoretic primitives increases usability for diverse research app
 
 Haarpy has been cited in an arXiv preprint, indicating external use beyond the original development context [@duschenes2025moments].
 The library is also used in ongoing collaborative research on Weingarten calculus and related random matrix theory problems.
-The project is publicly available on [GitHub](https://github.com/polyquantique) and is accompanied by comprehensive documentation hosted on [Read the Docs](https://haarpy.readthedocs.io/en/latest).
+The project is publicly available on [GitHub](https://github.com/polyquantique/haarpy) and is accompanied by comprehensive documentation hosted on [Read the Docs](https://haarpy.readthedocs.io/en/latest).
 The repository includes continuous integration with automated testing, with all tests passing and full test coverage reported via standard coverage tooling.
 These components provide a reproducible and verifiable implementation of algorithms for integration over a wide range of ensembles equipped with the Haar measure.
 
