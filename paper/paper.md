@@ -38,7 +38,7 @@ Built on top of the SymPy symbolic engine, Haarpy allows users to retain symboli
 
 # Statement of need
 
-The computation of averages over Haar-distributed random matrices is of growing importance in quantum information theory, random matrix theory, and statistical physics [@potters2020first].
+The computation of averages over Haar-distributed random matrices is of growing importance in quantum information theory [@martinez2024linear; @cardin2024photon; @turkeshi2025magic], random matrix theory [@bordenave2024strong; @daigle2025mixed], and statistical physics [@cotler2017chaos; @potters2020first].
 These averages describe the typical behavior of complex systems, including entanglement properties, randomness, and statistical correlations.
 
 Standard approaches typically rely either on Monte Carlo simulation, which approximates integrals through sampling, or on manual analytical derivations, which often involves intricate combinatorics.
@@ -58,18 +58,18 @@ To the best of our knowledge, Haarpy is the first Python package to provide dire
 The package places a strong emphasis on verification, with an extensive test suite covering both symbolic and numerical computations.
 Rather than extending an existing codebase, the underlying Weingarten calculus machinery has been re-implemented in Python to provide a tool that integrates naturally with widely used Python scientific workflows.
 For classical compact groups, Haarpy additionally provides an alternative moment computation method based on the recursive algorithm of Gorin [@gorin2008monomial], which does not rely on Weingarten calculus.
-In many settings, this approach can offer improved performance compared to Weingarten-based computations.
+In many settings, this latter approach can offer improved performance compared to Weingarten-based computations.
 
 # Software design
 Haarpy is designed with a focus on mathematical fidelity, symbolic flexibility, and usability.
-A key consideration is the trade-off between symbolic and numerical computation: while purely numerical methods can offer speed, they often obscure structure and reduce reproducibility, whereas symbolic computation preserves the algebraic form needed for derivations and verification.
+A key consideration is the trade-off between symbolic and numerical computation: while purely numerical methods can offer speed, they often obscure structure and reduce reproducibility, whereas symbolic computation preserves the exact algebraic form needed for derivations and verification.
 For this reason, the implementation is deliberately built around a lightweight symbolic stack centered on SymPy, avoiding heavier external dependencies in order to keep the system transparent, portable, and easier to validate.
 At the same time, efficiency is addressed through selective caching of intermediate combinatorial quantities, which reduces redundant work without relying on a precomputed database of results.
 In particular, moments are computed on demand rather than retrieved from tabulated Weingarten values.
 
 Core Weingarten functionality is complemented by auxiliary tools, including:
 
-- Implementation of the Murnaghan–Nakayama rule for characters of irreducible representations of the symmetric group [@james2006representation],
+- Implementation of the Murnaghan-Nakayama rule for characters of irreducible representations of the symmetric group [@james2006representation],
 
 - Functions for computing dimensions of irreducible representations of the symmetric and unitary groups [@james2006representation],
 
