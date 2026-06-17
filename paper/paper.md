@@ -32,7 +32,7 @@ Rather than relying on Monte Carlo simulation, which provides approximate result
 Under the hood, Haarpy reduces the computation of integrals over the relevant ensembles to Weingarten calculus.
 This field has grown rapidly over the past few decades, following the foundational work of Collins, who introduced the terminology [@collins2003moments] [@collins2006integration].
 This machinery is exposed through functions such as `weingarten_unitary`, `weingarten_orthogonal` and `weingarten_symplectic` while the associated integrals are accessed through functions such as `haar_integral_unitary`, `haar_integral_orthogonal` and `haar_integral_symplectic`.
-A full description of Haarpy's functionalities can be found in the library [documentation](https://haarpy.readthedocs.io/en/latest).
+A full description of Haarpy's functionalities can be found in the library [documentation](https://haarpy.readthedocs.io).
 
 Built on top of the SymPy symbolic engine, Haarpy allows users to retain symbolic parameters and derive general formulas applicable across entire classes of problems [@10.7717/peerj-cs.103].
 
@@ -84,7 +84,7 @@ Exposing group-theoretic primitives increases usability for diverse research app
 
 Haarpy has been cited in an arXiv preprint, indicating external use beyond the original development context [@duschenes2025moments].
 The library is also used in ongoing collaborative research on Weingarten calculus and related random matrix theory problems.
-The project is publicly available on [GitHub](https://github.com/polyquantique/haarpy) and is accompanied by comprehensive documentation hosted on [Read the Docs](https://haarpy.readthedocs.io/en/latest).
+The project is publicly available on [GitHub](https://github.com/polyquantique/haarpy) and is accompanied by comprehensive documentation hosted on [Read the Docs](https://haarpy.readthedocs.io).
 The repository includes continuous integration with automated testing, with all tests passing and full test coverage reported via standard coverage tooling.
 These components provide a reproducible and verifiable implementation of algorithms for integration over a wide range of ensembles equipped with the Haar measure.
 
